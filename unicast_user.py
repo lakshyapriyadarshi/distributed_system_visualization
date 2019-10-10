@@ -72,17 +72,18 @@ def plot_internal(point):
 
 
 def internal_event(internal_process):
-        process, timestamp = internal_process
-        initial_time = timestamp
-        final_time = max(process_time[process-1][-1],timestamp) + step[process-1]
+        process = internal_process[0]
+        final_time = process_time[process-1][-1] + step[process-1]
         process_time[process-1].append(final_time)
         plot_internal([process,final_time])
-        return [process, 'x', initial_time, final_time]
+        return [process, 'x', 'x', final_time]
 
 def send(message):
     process_a, process_b, timestamp = message
     initial_time = timestamp if timestamp != None else process_time[process_a-1][-1] + step[process_a-1]
-    final_time = max(process_time[process_b-1][-1],initial_time) + step[process_b-1]
+#     final_time = max(process_time[process_b-1][-1],initial_time) + step[process_b-1]
+    calculated_final_time = process_time[process_b-1][-1] + step[process_b-1]
+    final_time = max(calculated_final_time, initial_time)
     process_time[process_a-1].append(initial_time)
     process_time[process_b-1].append(final_time)
     data = [process_a, process_b, initial_time, final_time]
@@ -118,7 +119,7 @@ while(1):
                 break
         else:
                 if 'internal' in command:
-                        internal = list(map(int,command.strip().split(sep = ' ')[1:]))
+                        internal = list(map(int,command.strip().split(sep = ' ')[1]))
                         internals.append(internal)
                         process_table.append(['INTERNAL',internal_event(internals[-1])])
                 elif 'send' in command:
