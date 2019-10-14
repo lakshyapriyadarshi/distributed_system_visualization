@@ -81,9 +81,9 @@ def internal_event(internal_process):
 def send(message):
     process_a, process_b, timestamp = message
     initial_time = timestamp if timestamp != None else process_time[process_a-1][-1] + step[process_a-1]
-#     final_time = max(process_time[process_b-1][-1],initial_time) + step[process_b-1]
-    calculated_final_time = process_time[process_b-1][-1] + step[process_b-1]
-    final_time = max(calculated_final_time, initial_time)
+    final_time = max(process_time[process_b-1][-1],initial_time) + step[process_b-1]
+#     calculated_final_time = process_time[process_b-1][-1] + step[process_b-1]
+#     final_time = max(calculated_final_time, initial_time)
     process_time[process_a-1].append(initial_time)
     process_time[process_b-1].append(final_time)
     data = [process_a, process_b, initial_time, final_time]
